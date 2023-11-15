@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       flag: true,
+      numbers: [1, 2, 3, 4, 5],
     }
   },
   methods: {
@@ -42,12 +43,21 @@ export default {
     afterLeave(el) {
       console.log('after-leave event fired', el);
     },
-  }
+    addItem() {
+      const num = Math.floor(Math.random() * 100 + 1);
+      const index = Math.floor(Math.random() * this.numbers.length);
+
+      this.numbers.splice(index, 0, num);
+    },
+    removeItem(index) {
+      this.numbers.splice(index, 1);
+    }
+  },
 };
 </script>
 
 <template>
-  <button type="button" @click="flag = !flag">Toggle</button>
+<!--  <button type="button" @click="flag = !flag">Toggle</button>-->
 
   <!--  <transition name="fade" mode="out-in">-->
   <!--    <h2 v-if="flag" key="main">Hello world !</h2>-->
@@ -59,21 +69,37 @@ export default {
   <!--  </transition>-->
 
   <!-- zoom animation -->
-  <transition
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter"
-      @before-leave="beforeLeave"
-      @leave="leave"
-      @after-leave="afterLeave"
-      :css="true"
-      name="fade"
-  >
-    <h2 v-if="flag">Hey</h2>
-  </transition>
+<!--  <transition-->
+<!--      @before-enter="beforeEnter"-->
+<!--      @enter="enter"-->
+<!--      @after-enter="afterEnter"-->
+<!--      @before-leave="beforeLeave"-->
+<!--      @leave="leave"-->
+<!--      @after-leave="afterLeave"-->
+<!--      :css="true"-->
+<!--      name="fade"-->
+<!--  >-->
+<!--    <h2 v-if="flag">Hey</h2>-->
+<!--  </transition>-->
+
+  <button @click="addItem">Add</button>
+
+  <ul>
+    <transition-group name="fade">
+      <li v-for="(number, index) in numbers" :key="number"
+          @click="removeItem(index)">
+        {{ number }}
+      </li>
+    </transition-group>
+  </ul>
 </template>
 
 <style>
+li {
+  font-size: 22px;
+  cursor: pointer;
+}
+
 h2 {
   width: 400px;
   padding: 20px;
