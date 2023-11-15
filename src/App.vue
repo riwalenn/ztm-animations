@@ -13,7 +13,14 @@ export default {
     },
     enter(el, done) {
       console.log('enter event fired', el);
-      done();
+
+      const animation = el.animate([{ transform: "scale3d(0,0,0)" }, {}], {
+        duration: 1000,
+      });
+
+      animation.onfinish = () => {
+        done();
+      };
     },
     afterEnter(el) {
       console.log('after-enter event fired', el);
@@ -23,7 +30,14 @@ export default {
     },
     leave(el, done) {
       console.log('leave event fired', el);
-      done();
+
+      const animation = el.animate([{ transform: "scale3d(0,0,0)" }, {}], {
+        duration: 1000,
+      });
+
+      animation.onfinish = () => {
+        done();
+      };
     },
     afterLeave(el) {
       console.log('after-leave event fired', el);
@@ -51,6 +65,7 @@ export default {
       @before-leave="beforeLeave"
       @leave="leave"
       @after-leave="afterLeave"
+      :css="false"
   >
     <h2 v-if="flag">Hey</h2>
   </transition>
